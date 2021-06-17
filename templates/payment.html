@@ -120,13 +120,13 @@
                 </h4>
                 <div class="mb-3">
                     <div class="list-group-item text-center">
-                        <a class="share-button" href="https://api.whatsapp.com/send?text={{ result['info'][0] }}%20%0A%0{{ result['shared_link'][0] }}" title="Compartilhar pelo WhatsApp">
+                        <a class="share-button" href="https://api.whatsapp.com/send?text={{ result['info'][0] | urlencode }}{{ result['shared_link'][0] | urlencode }}" title="Compartilhar pelo WhatsApp">
                             <i class="fab fa-whatsapp" style="background-color: #075e54;"></i>
                         </a>
-                        <a class="share-button" href="https://telegram.me/share/url?url={{ result['info'][0] }}%20%0A%0{{ result['shared_link'][0] }}" title="Compartilhar pelo Telegram">
+                        <a class="share-button" href="https://telegram.me/share/url?url={{ result['info'][0] | urlencode }}{{ result['shared_link'][0] | urlencode }}" title="Compartilhar pelo Telegram">
                             <i class="fab fa-telegram" style="background-color: #08c;"></i>
                         </a>
-                                                <a class="share-button" href="https://twitter.com/intent/tweet?text={{ result['info'][0] }}&url={{ result['shared_link'][0] }}" title="Compartilhar pelo Twitter">
+                                                <a class="share-button" href="https://twitter.com/intent/tweet?text={{ result['info'][0] | urlencode }}&url={{ result['shared_link'][0] | urlencode }}" title="Compartilhar pelo Twitter">
                             <i class="fab fa-twitter" style="background-color: #5eb2ef;"></i>
                         </a>
                         <a class="share-button" href="mailto:" title="Compartilhar por e-mail">

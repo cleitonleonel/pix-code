@@ -6,6 +6,8 @@ from os import getcwd, path, makedirs
 from api.pix import Pix
 from decimal import Decimal
 
+from urllib.parse import quote_plus
+
 QR_FOLDER = 'media/qrcode/'
 LOGO_FOLDER = 'static/media/img/'
 DATABASE_DIR = 'data/'
@@ -19,6 +21,9 @@ app = Flask(__name__, template_folder='templates')
 app.config['QR_FOLDER'] = QR_FOLDER
 app.config['LOGO_FOLDER'] = LOGO_FOLDER
 app.config['SECRET_KEY'] = secrets.token_hex(16)
+
+app.jinja_env.filters['quote_plus'] = lambda u: quote_plus(u)
+
 alpha_number = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789'
 
 
