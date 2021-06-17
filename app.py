@@ -84,7 +84,6 @@ def index():
 def qrcode_api():
     conn = get_db_connection()
     if request.method == 'POST':
-        print(request.get_json())
         result = request.get_json()
         args = {}
         args['full_name'] = result['nome']
@@ -101,7 +100,7 @@ def qrcode_api():
 
         pix = Pix()
         set_pix_params(pix, **args)
-        result['brcode'] = [pix.get_br_code()]
+        result['brcode'] = pix.get_br_code()
         # base64qr = pix.save_qrcode('./qrcode.png')
 
         result['base64qr'] = pix.save_qrcode('./qrcode.png', color="black", box_size=7,
