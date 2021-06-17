@@ -12,7 +12,7 @@ pip3 install -r requirements.txt
 python3 app.py
 ```
 
-# Consumindo a nossa api:
+# Consumindo a nossa api via Python:
 ```python
 import requests
 
@@ -55,6 +55,13 @@ output:
     }
 ```
 
+# Consumindo a nossa api via Curl:
+
+```shell
+curl -H "Content-Type: application/json" \
+-X POST 'https://pix-code.herokuapp.com/api/v1/qrcode' \
+-d '{"nome": "cleiton leonel creton", "city": "cariacica", "zipcode": "29148613", "location": "", "chave": "cleiton.leonel@gmail.com", "txid": "123", "info": "paga aê pow...nunca te pedi nada, mão de vaca...", "valor": 15.00}'
+```
 
 # Este projeto ajudou você?
 
