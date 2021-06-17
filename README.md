@@ -13,7 +13,7 @@ python3 app.py
 ```
 
 
-# Did this lib help you?
+# Este projeto ajudou você?
 
 Se esse projeto lhe ajudar de alguma forma, sinta-se livre para me pagar um café, kkkk...Basta apontar a câmera do seu celular para um dos qrcodes abaixo.
 
