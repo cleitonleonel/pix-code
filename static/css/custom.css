@@ -1,0 +1,64 @@
+/* dark */
+
+/* body {
+    color: #fff;
+}
+
+.text-muted {
+    color: #f8f9fa !important;
+}
+
+hr {
+	border-top: 1px solid rgba(255, 255, 255, 0.5);
+}
+
+.sidebar ul {
+    color: #1b1b1f;
+} */
+
+/* geral */
+
+.share-button,
+.share-button:hover {
+    color: white;
+    text-decoration: none;
+}
+
+.share-button > i {
+    padding: 10px;
+    margin: 3px;
+    font-size: x-large;
+}
+
+.btn-primary {
+    color: #fff;
+    background-color: #4BB8A9;
+    border-color: #29635b;
+}
+
+.btn-primary:hover {
+    color: #fff;
+    background-color: #3d998d;
+    border-color: #22534d;
+}
+
+.btn-primary:focus, .btn-primary.focus {
+    color: #fff;
+    background-color: #3d998d;
+    border-color: #22534d;
+    box-shadow: 0 0 0 0.2rem rgba(38, 255, 183, 0.5);
+}
+
+.bg-dark {
+    background-color: #000 !important;
+}
+
+a.bg-dark:hover, a.bg-dark:focus,
+button.bg-dark:hover,
+button.bg-dark:focus {
+    background-color: #1d2124 !important;
+}
+
+.text-pix {
+    color: #4BB8A9;
+}
