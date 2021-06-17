@@ -13,7 +13,7 @@ python3 app.py
 ```
 
 # Consumindo a nossa api:
-```
+```python
 import requests
 
 
