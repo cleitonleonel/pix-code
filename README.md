@@ -68,7 +68,7 @@ output:
 
 ```shell
 curl -i -X POST -H "Content-Type: multipart/form-data" \
--F 'file=@/home/cleiton/PyJobs/MeusProjetos/pypix/pro_bots.png' 'http://localhost:5000/api/v1/qrcode' \
+-F 'file=@/home/cleiton/PyJobs/MeusProjetos/pypix/pro_bots.png' 'https://pix-code.herokuapp.com/api/v1/qrcode' \
 -F 'json={"nome": "cleiton leonel creton", "city": "cariacica", "zipcode": "29148613", "location": "", "chave": "cleiton.leonel@gmail.com", "txid": "123", "info": "paga aê pow...nunca te pedi nada, mão de vaca...", "valor": 15.00};type=application/json'
 ```
 
