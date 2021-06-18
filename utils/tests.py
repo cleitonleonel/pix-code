@@ -1,4 +1,5 @@
 import os
+import json
 import base64
 import requests
 
@@ -43,9 +44,14 @@ class PixCodeAPI(Browser):
     def __init__(self):
         super().__init__()
 
-    def generate_qr(self, **kwargs):
-        data = kwargs
-        self.response = self.send_request('POST', f"{BASE_URL}/api/v1/qrcode", json=data, headers=self.headers)
+    def generate_qr(self, custom_logo=None, **kwargs):
+        files = {
+            'json': (None, json.dumps(kwargs), 'application/json'),
+        }
+        if custom_logo:
+            files['file'] = (os.path.basename(custom_logo), open(custom_logo, 'rb'), 'application/octet-stream')
+
+        self.response = self.send_request('POST', f"{BASE_URL}/api/v1/qrcode", files=files, headers=self.headers)
         return self.response
 
 
@@ -63,8 +69,9 @@ if __name__ == '__main__':
         "valor": 15.00
     }
 
-    qrcode = api.generate_qr(**params)
+    logo = os.path.join('/home/cleiton/PyJobs/MeusProjetos/pypix/', 'pro_bots.png')
+    qrcode = api.generate_qr(custom_logo=logo, **params)
     if qrcode.status_code == 200:
-        print(qrcode.json())
+        # print(qrcode.json())
         base64_qr = qrcode.json()['object']['base64qr']
         make_qr(base64_qr, output='')

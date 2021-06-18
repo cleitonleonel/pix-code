@@ -14,6 +14,8 @@ python3 app.py
 
 # Consumindo a nossa api via Python:
 ```python
+import os
+import json
 import requests
 
 
@@ -29,8 +31,15 @@ data = {
     "info": "paga aê pow...nunca te pedi nada, mão de vaca...",
     "valor": 15.00
 }
+logo = os.path.join('/home/cleiton/PyJobs/MeusProjetos/pypix/', 'pro_bots.png')  # Opcional
 
-result = requests.post(url=f'{BASE_URL}/api/v1/qrcode', json=data)
+files = {
+    'json': (None, json.dumps(data), 'application/json'),
+}
+if logo:
+    files['file'] = (os.path.basename(logo), open(logo, 'rb'), 'application/octet-stream')
+
+result = requests.post(url=f'{BASE_URL}/api/v1/qrcode', files=files)
 if result.status_code == 200:
     print(result.json())
 
@@ -58,9 +67,9 @@ output:
 # Consumindo a nossa api via Curl:
 
 ```shell
-curl -H "Content-Type: application/json" \
--X POST 'https://pix-code.herokuapp.com/api/v1/qrcode' \
--d '{"nome": "cleiton leonel creton", "city": "cariacica", "zipcode": "29148613", "location": "", "chave": "cleiton.leonel@gmail.com", "txid": "123", "info": "paga aê pow...nunca te pedi nada, mão de vaca...", "valor": 15.00}'
+curl -i -X POST -H "Content-Type: multipart/form-data" \
+-F 'file=@/home/cleiton/PyJobs/MeusProjetos/pypix/pro_bots.png' 'http://localhost:5000/api/v1/qrcode' \
+-F 'json={"nome": "cleiton leonel creton", "city": "cariacica", "zipcode": "29148613", "location": "", "chave": "cleiton.leonel@gmail.com", "txid": "123", "info": "paga aê pow...nunca te pedi nada, mão de vaca...", "valor": 15.00};type=application/json'
 ```
 
 # Este projeto ajudou você?

@@ -1,7 +1,10 @@
 import secrets
 import sqlite3
 import random
+import tempfile
+import json
 from flask import Flask, request, redirect, render_template
+from werkzeug.utils import secure_filename
 from os import getcwd, path, makedirs
 from api.pix import Pix
 from decimal import Decimal
@@ -21,6 +24,7 @@ app = Flask(__name__, template_folder='templates')
 app.config['QR_FOLDER'] = QR_FOLDER
 app.config['LOGO_FOLDER'] = LOGO_FOLDER
 app.config['SECRET_KEY'] = secrets.token_hex(16)
+app.config['UPLOAD_FOLDER'] = tempfile.gettempdir()
 
 app.jinja_env.filters['quote_plus'] = lambda u: quote_plus(u)
 
@@ -84,7 +88,8 @@ def index():
 def qrcode_api():
     conn = get_db_connection()
     if request.method == 'POST':
-        result = request.get_json()
+        result = json.loads(request.form["json"])
+        # result = request.get_json()
         args = {}
         args['full_name'] = result['nome']
         args['city'] = result['city']
@@ -96,20 +101,26 @@ def qrcode_api():
             if '@' not in result['chave'] else result['chave']
         args['identification'] = result['txid']
         args['description'] = result['info']
-        args['amount'] = Decimal(result['valor']if result['valor'] != '' else 0.0)
+        args['amount'] = Decimal(result['valor'] if result['valor'] != '' else 0.0)
 
         pix = Pix()
         set_pix_params(pix, **args)
         result['brcode'] = pix.get_br_code()
         # base64qr = pix.save_qrcode('./qrcode.png')
+        if request.files.get('file', None):
+            logo = request.files['file']
+            filename = secure_filename(logo.filename)
+            custom_logo = path.join(app.config['UPLOAD_FOLDER'], filename)
+            logo.save(custom_logo)
+        else:
+            custom_logo = path.join(LOGO_FOLDER, 'logo-pypix.png')
 
         result['base64qr'] = pix.save_qrcode('./qrcode.png', color="black", box_size=7,
-                                             border=1, custom_logo=path.join(LOGO_FOLDER, 'logo-pypix.png')
+                                             border=1, custom_logo=custom_logo
                                              )
 
         shared_link = request.host_url + 'invoices/' + generate_token()
         result['shared_link'] = shared_link
-
         conn.execute("""
         INSERT INTO Pix (
             full_name,
