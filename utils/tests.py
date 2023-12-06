@@ -72,6 +72,6 @@ if __name__ == '__main__':
     logo = os.path.join('/home/cleiton/PyJobs/MeusProjetos/pypix/', 'pro_bots.png')
     qrcode = api.generate_qr(custom_logo=logo, **params)
     if qrcode.status_code == 200:
-        # print(qrcode.json())
+        print(qrcode.json())
         base64_qr = qrcode.json()['object']['base64qr']
         make_qr(base64_qr, output='')

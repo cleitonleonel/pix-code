@@ -8,7 +8,6 @@ from werkzeug.utils import secure_filename
 from os import getcwd, path, makedirs
 from api.pix import Pix
 from decimal import Decimal
-
 from urllib.parse import quote_plus
 
 QR_FOLDER = 'media/qrcode/'
@@ -167,7 +166,8 @@ def get_qrcode():
             if '@' not in result['chave'][0] else result['chave'][0]
         args['identification'] = result['txid'][0]
         args['description'] = result['info'][0]
-        args['amount'] = Decimal(result['valor'][0].split(' ')[1].replace(',', '.')
+        print("OLHAR", result['valor'])
+        args['amount'] = Decimal(result['valor'][0].split(' ')[1].replace('.', '').replace(',', '.')
                                  if result['valor'][0] != '' else 0.0
                                  )
 
