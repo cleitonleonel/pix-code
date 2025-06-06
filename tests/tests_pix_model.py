@@ -2,8 +2,8 @@ import unittest
 from decimal import Decimal
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
-from app.db.models.pix_model import PixModel
-from app.db.models.pix_model import mapper_registry
+from pix_app.db.models.pix_model import PixModel
+from pix_app.db.models.pix_model import mapper_registry
 
 
 class TestPixModel(unittest.TestCase):

@@ -1,7 +1,7 @@
 import logging
 
-from app.db.base import SessionLocal
-from app.db.models.pix_model import PixModel
+from pix_app.db.base import SessionLocal
+from pix_app.db.models.pix_model import PixModel
 
 logger = logging.getLogger(__name__)
 

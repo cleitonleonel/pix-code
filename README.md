@@ -9,7 +9,7 @@ Pix-code é baseado no projeto [Pix.ae](https://pix.ae/renatofrota@gmail.com), u
 git clone https://github.com/cleitonleonel/pix-code.git
 cd pix-code
 poetry install
-poetry run python main.py
+poetry run python app.py
 ```
 
 # Consumindo a nossa api via Python:

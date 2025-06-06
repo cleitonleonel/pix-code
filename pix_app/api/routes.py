@@ -3,8 +3,8 @@ import logging
 
 from flask import Blueprint, redirect, render_template, request
 
-from app.db.crud.pix_crud import get_pix_by_hash, increment_pix_clicks
-from app.services.pix_service import process_pix_data
+from pix_app.db.crud.pix_crud import get_pix_by_hash, increment_pix_clicks
+from pix_app.services.pix_service import process_pix_data
 
 main = Blueprint("main", __name__)
 

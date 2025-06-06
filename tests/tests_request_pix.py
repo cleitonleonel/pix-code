@@ -73,7 +73,7 @@ if __name__ == '__main__':
         "valor": 15.00
     }
 
-    logo = os.path.join('../app/static/media/img/', 'logo_pypix.png')
+    logo = os.path.join('../pix_app/static/media/img/', 'logo_pypix.png')
     qrcode = api.generate_qr(custom_logo=logo, **params)
     if qrcode.status_code == 200:
         print(qrcode.json())

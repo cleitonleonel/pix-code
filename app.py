@@ -1,6 +1,6 @@
 import logging
 
-from app import create_app
+from pix_app import create_app
 
 # Configuração de logging
 logging.basicConfig(level=logging.INFO)

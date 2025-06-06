@@ -2,10 +2,10 @@ import os
 from decimal import Decimal, InvalidOperation
 from flask import current_app
 from werkzeug.utils import secure_filename
-from app.core.pix import Pix
-from app.db.crud.pix_crud import save_pix
-from app.db.models.pix_model import PixModel
-from app.utils.security import generate_secure_token
+from pix_app.core.pix import Pix
+from pix_app.db.crud.pix_crud import save_pix
+from pix_app.db.models.pix_model import PixModel
+from pix_app.utils.security import generate_secure_token
 
 
 def set_pix_params(model, **kwargs):

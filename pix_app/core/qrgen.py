@@ -4,12 +4,12 @@ import qrcode
 from PIL import Image
 from qrcode.image.styledpil import StyledPilImage
 
-from app.core.styles.border_styles import BORDER_SVGS, BorderStyle
-from app.core.styles.frame_styles import FrameStyle
-from app.core.styles.line_styles import LINE_STYLES, LineStyle
-from app.core.styles.marker_styles import MARKER_SVGS, MarkerStyle
-from app.core.styles.qr_styler import GradientMode, QRCodeStyler
-from app.core.utils.image_utils import add_center_image, apply_frame_qr, svg_to_pil
+from pix_app.core.styles.border_styles import BORDER_SVGS, BorderStyle
+from pix_app.core.styles.frame_styles import FrameStyle
+from pix_app.core.styles.line_styles import LINE_STYLES, LineStyle
+from pix_app.core.styles.marker_styles import MARKER_SVGS, MarkerStyle
+from pix_app.core.styles.qr_styler import GradientMode, QRCodeStyler
+from pix_app.core.utils.image_utils import add_center_image, apply_frame_qr, svg_to_pil
 
 
 class Generator(qrcode.QRCode):

@@ -5,7 +5,7 @@ from binascii import crc_hqx
 from io import BytesIO
 from unicodedata import normalize
 
-from app.core.qrgen import Generator
+from pix_app.core.qrgen import Generator
 
 # Configuração básica de logging
 logging.basicConfig(

@@ -1,7 +1,7 @@
 from sqlalchemy import create_engine
 from sqlalchemy.orm import registry, sessionmaker
 
-DATABASE_URL = "sqlite:///app/data/database.db"
+DATABASE_URL = "sqlite:///pix_app/data/database.db"
 
 mapper_registry = registry()
 

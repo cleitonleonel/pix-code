@@ -5,8 +5,8 @@ import sys
 
 from alembic import command
 from alembic.config import Config
-from app.db.base import SessionLocal, init_database
-from app.db.models import user_model
+from pix_app.db.base import SessionLocal, init_database
+from pix_app.db.models import user_model
 
 # Configuração básica de logging
 logging.basicConfig(

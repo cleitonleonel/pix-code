@@ -1,6 +1,6 @@
 .idea
 .git
 src
-app/data
-app/static/media/qrcode
+pix_app/data
+pix_app/static/media/qrcode
 alembic/versions

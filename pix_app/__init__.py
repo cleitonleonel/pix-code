@@ -5,14 +5,14 @@ from urllib.parse import quote_plus
 
 from flask import Flask
 
-from app.api.routes import main
-from app.db.base import init_database
+from pix_app.api.routes import main
+from pix_app.db.base import init_database
 
 # Configurações
-STATIC_PATH = "app/static/media"
+STATIC_PATH = "pix_app/static/media"
 QR_FOLDER = f"{STATIC_PATH}/qrcode/"
 LOGO_FOLDER = f"{STATIC_PATH}/img/"
-DATABASE_DIR = "app/data/"
+DATABASE_DIR = "pix_app/data/"
 BASE_DIR = getcwd()
 
 # Criação de diretórios

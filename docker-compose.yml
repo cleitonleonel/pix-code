@@ -7,9 +7,9 @@ services:
     ports:
       - "5000:5000"
     volumes:
-      - .:/app
+      - .:/pix_app
     environment:
-      - FLASK_APP=main.py
+      - FLASK_APP=app.py
       - FLASK_ENV=development
       - DATABASE_URL=postgresql://postgres:postgres@db:5432/pixdb
     depends_on:

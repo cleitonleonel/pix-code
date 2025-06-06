@@ -1,6 +1,6 @@
 from sqlalchemy import DECIMAL, DateTime, Integer, String, Text, func
 from sqlalchemy.orm import Mapped, mapped_column
-from app.db.base import mapper_registry
+from pix_app.db.base import mapper_registry
 
 
 @mapper_registry.mapped_as_dataclass
