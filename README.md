@@ -19,7 +19,7 @@ import json
 import requests
 
 
-BASE_URL = 'https://pix-code.herokuapp.com'  # 'http://localhost:5000'
+BASE_URL = 'https://pix-code.isolutionstech.com.br'  # 'http://localhost:5000'
 
 data = {
     "nome": "cleiton leonel creton",
@@ -55,7 +55,7 @@ if result.status_code == 200:
         "info": "paga aê pow...nunca te pedi nada, mão de vaca...",
         "location": "",
         "nome": "cleiton leonel creton",
-        "shared_link": "https://pix-code.herokuapp.com/invoices/dguGvVTc7T7VztQGGDqSu180fVfQGVhSjdJSqVwZouituHiRZ53lcf0vuF49se",
+        "shared_link": "https://pix-code.isolutionstech.com.br/invoices/dguGvVTc7T7VztQGGDqSu180fVfQGVhSjdJSqVwZouituHiRZ53lcf0vuF49se",
         "txid": "123",
         "valor": 15.0,
         "zipcode": "29148613"
@@ -80,7 +80,7 @@ curl -i -X POST \
     \"info\": \"paga aê pow...nunca te pedi nada, mão de vaca...\",
     \"valor\": 15.00
   };type=application/json" \
-  "https://pix-code.herokuapp.com/api/v1/qrcode"
+  "https://pix-code.isolutionstech.com.br/api/v1/qrcode"
 ```
 
 # Este projeto ajudou você?
