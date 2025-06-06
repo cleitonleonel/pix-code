@@ -252,28 +252,28 @@
 
         <div class="share-grid">
           <a
-            href="https://web.whatsapp.com/send?text=Ficou%20super%20f%C3%A1cil%20criar%20links%20PIX!%20Confira:%20https://pix-code.herokuapp.com"
+            href="https://web.whatsapp.com/send?text=Ficou%20super%20f%C3%A1cil%20criar%20links%20PIX!%20Confira:%20{{ request.host_url }}"
             class="share-btn share-whatsapp" target="_blank" rel="noopener">
             <i class="fab fa-whatsapp"></i>
             WhatsApp
           </a>
 
           <a
-            href="https://t.me/share/url?url=https://pix-code.herokuapp.com&text=Ferramenta%20incrível%20para%20criar%20links%20PIX!"
+            href="https://t.me/share/url?url={{ request.host_url }}&text=Ferramenta%20incrível%20para%20criar%20links%20PIX!"
             class="share-btn share-telegram" target="_blank" rel="noopener">
             <i class="fab fa-telegram"></i>
             Telegram
           </a>
 
           <a
-            href="https://twitter.com/intent/tweet?text=Ferramenta%20incrível%20para%20criar%20links%20PIX!&url=https://pix-code.herokuapp.com"
+            href="https://twitter.com/intent/tweet?text=Ferramenta%20incrível%20para%20criar%20links%20PIX!&url={{ request.host_url }}"
             class="share-btn share-twitter" target="_blank" rel="noopener">
             <i class="fab fa-twitter"></i>
             Twitter
           </a>
 
           <a
-            href="mailto:?subject=PIX%20Code%20-%20Gerador%20de%20Links&body=Confira%20esta%20ferramenta%20incrível:%20https://pix-code.herokuapp.com"
+            href="mailto:?subject=PIX%20Code%20-%20Gerador%20de%20Links&body=Confira%20esta%20ferramenta%20incrível:%20{{ request.host_url }}"
             class="share-btn share-email">
             <i class="fas fa-envelope"></i>
             E-mail
