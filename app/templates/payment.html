@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns="http://www.w3.org/1999/html">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pagamento PIX - {{ result['nome'] }}</title>
+  <meta name="description" content="{{ result['info'] }}">
+
+  <!-- Open Graph Meta Tags -->
+  <meta property="og:locale" content="pt_BR">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Pagamento PIX - {{ result['nome'] }}">
+  <meta property="og:description" content="{{ result['info'] }}">
+  <meta property="og:image" content="/static/media/pypix.png">
+
+  <!-- Favicon -->
+  <link rel="icon" href="/static/media/img/favicon.ico">
+  <link rel="apple-touch-icon" href="/static/media/img/apple-touch-icon.png">
+  <meta name="theme-color" content="#667eea">
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+  <!-- Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/payment.css') }}">
+</head>
+<body>
+<div class="container">
+  <header class="header">
+    <div class="logo">
+      <i class="fas fa-credit-card"></i>
+    </div>
+    <h1>Pagamento PIX</h1>
+    <p>{{ result['info'] }}</p>
+  </header>
+
+  <div class="main-content">
+    <div class="payment-section">
+      <h2 class="section-title">
+        <i class="fas fa-qrcode"></i>
+        Como Pagar
+      </h2>
+
+      <div class="payment-methods">
+        <div class="qr-section">
+          <h3>📱 Escaneie o QR Code</h3>
+          <p>Abra o app do seu banco, vá em PIX e escaneie o código</p>
+          <img src="{{ result['base64qr'] }}" alt="QR Code PIX" class="qr-code">
+        </div>
+
+        <div class="copy-section">
+          <h3>📋 Copiar e Colar</h3>
+          <p>Ou copie o código abaixo e use PIX Copia e Cola</p>
+          <textarea
+            id="pixCode"
+            class="copy-input"
+            readonly
+            placeholder="Código PIX será exibido aqui..."
+          >{{ result['brcode'] }}</textarea>
+          <button onclick="copyPixCode()" class="copy-button">
+            <i class="fas fa-copy"></i>
+            Copiar Código PIX
+          </button>
+          <div id="copySuccess" class="copy-success">
+            <i class="fas fa-check"></i>
+            Código PIX copiado com sucesso!
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="sidebar">
+      <div class="card">
+        <h3 class="card-title">
+          <i class="fas fa-info-circle"></i>
+          Detalhes do Pagamento
+        </h3>
+
+        <div class="info-item">
+          <div class="info-content">
+            <h4>Chave PIX</h4>
+            <p>{{ result['chave'] }}</p>
+          </div>
+          <div class="info-icon">
+            <i class="fas fa-key"></i>
+          </div>
+        </div>
+
+        <div class="info-item">
+          <div class="info-content">
+            <h4>Beneficiário</h4>
+            <p>{{ result['nome'] }}</p>
+          </div>
+          <div class="info-icon">
+            <i class="fas fa-user"></i>
+          </div>
+        </div>
+
+        <div class="info-item">
+          <div class="info-content">
+            <h4>Descrição</h4>
+            <p>{{ result['info'] }}</p>
+          </div>
+          <div class="info-icon">
+            <i class="fas fa-file-alt"></i>
+          </div>
+        </div>
+
+        <div class="info-item">
+          <div class="info-content">
+            <h4>Identificador</h4>
+            <p>{{ result['txid'] }}</p>
+          </div>
+          <div class="info-icon">
+            <i class="fas fa-hashtag"></i>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <h3 class="card-title">
+          <i class="fas fa-share-alt"></i>
+          Compartilhar
+        </h3>
+
+        <div class="share-section">
+          <a
+            href="https://web.whatsapp.com/send?text={{ result['info'] | urlencode }}%20{{ result['shared_link'] | urlencode }}"
+            class="share-button whatsapp"
+            target="_blank"
+            rel="noopener">
+            <i class="fab fa-whatsapp"></i>
+            WhatsApp
+          </a>
+
+          <a
+            href="https://t.me/share/url?url={{ result['shared_link'] | urlencode }}&text={{ result['info'] | urlencode }}"
+            class="share-button telegram"
+            target="_blank"
+            rel="noopener">
+            <i class="fab fa-telegram"></i>
+            Telegram
+          </a>
+
+          <a
+            href="https://twitter.com/intent/tweet?text={{ result['info'] | urlencode }}&url={{ result['shared_link'] | urlencode }}"
+            class="share-button twitter"
+            target="_blank"
+            rel="noopener">
+            <i class="fab fa-twitter"></i>
+            Twitter
+          </a>
+
+          <a
+            href="mailto:?subject=Pagamento PIX&body={{ result['info'] | urlencode }}%20{{ result['shared_link'] | urlencode }}"
+            class="share-button email">
+            <i class="fas fa-envelope"></i>
+            E-mail
+          </a>
+        </div>
+      </div>
+
+      <div class="card">
+        <h3 class="card-title">
+          <i class="fas fa-headset"></i>
+          Suporte
+        </h3>
+        <p style="margin-bottom: 1rem; color: var(--text-secondary);">
+          Precisa de ajuda? Entre em contato conosco
+        </p>
+        <a href="mailto:cleiton.leonel@gmail.com"
+           style="color: #667eea; text-decoration: none; font-weight: 500;">
+          <i class="fas fa-envelope"></i>
+          cleiton.leonel@gmail.com
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <footer class="footer">
+    <p>&copy; 2024 PIX Code. Todos os direitos reservados.</p>
+    <a href="/">← Voltar ao início</a>
+  </footer>
+</div>
+
+<script src="{{ url_for('static', filename='js/payment.js') }}"></script>
+</body>
+</html>

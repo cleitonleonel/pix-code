@@ -1,0 +1,31 @@
+version: "3.9"
+
+services:
+  web:
+    build: .
+    container_name: pix_code_web
+    ports:
+      - "5000:5000"
+    volumes:
+      - .:/app
+    environment:
+      - FLASK_APP=main.py
+      - FLASK_ENV=development
+      - DATABASE_URL=postgresql://postgres:postgres@db:5432/pixdb
+    depends_on:
+      - db
+
+  db:
+    image: postgres:16
+    container_name: pix_code_db
+    environment:
+      POSTGRES_DB: pixdb
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+volumes:
+  pgdata:

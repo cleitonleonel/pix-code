@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PIX Code - Envie e receba PIX de forma fácil, rápida e gratuita</title>
+  <meta name="description" content="Pra pagar ou receber: manda um Pix-code aê!">
+
+  <!-- Open Graph Meta Tags -->
+  <meta property="og:locale" content="pt_BR">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="PIX Code">
+  <meta property="og:title" content="PIX Code - Gerador de Links PIX">
+  <meta property="og:description" content="Crie links PIX personalizados de forma rápida e gratuita">
+  <meta property="og:image" content="/static/media/pypix.png">
+
+  <!-- Favicon -->
+  <link rel="icon" href="/static/media/img/favicon.ico">
+  <link rel="apple-touch-icon" href="/static/media/img/apple-touch-icon.png">
+  <meta name="theme-color" content="#667eea">
+
+  <!-- Google Fonts -->
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap"
+    rel="stylesheet">
+
+  <!-- Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/index.css') }}">
+</head>
+<body>
+<div class="container">
+  <!-- Hero Section -->
+  <div class="hero">
+    <div class="hero-logo">
+      <i class="fas fa-qrcode"></i>
+    </div>
+    <h1>PIX Code</h1>
+    <p class="hero-subtitle">
+      Crie links de pagamento PIX personalizados de forma rápida, fácil e totalmente gratuita
+    </p>
+  </div>
+
+  <!-- Main Content -->
+  <div class="main-content">
+    <!-- Form Section -->
+    <div class="form-card">
+      <h2 class="form-title">
+        <i class="fas fa-plus-circle"></i>
+        Criar Link PIX
+      </h2>
+
+      <p class="form-description">
+        Preencha os dados abaixo para gerar seu link de pagamento PIX personalizado.
+        Seus clientes poderão ver os detalhes, QR Code e código "Copia e Cola".
+      </p>
+
+      <div class="info-banner">
+        <i class="fas fa-info-circle"></i>
+        <p>A Chave PIX deve estar cadastrada no aplicativo do seu banco</p>
+      </div>
+
+      <form id="pixForm" action="/qrcode" method="POST">
+        <div class="form-row" id="tipoRow">
+          <div class="form-group">
+            <label for="tipo">Tipo de Chave</label>
+            <select class="form-select" id="tipo" name="tipo" required>
+              <option value="">Selecione o tipo</option>
+              <option value="aleatoria">Chave Aleatória</option>
+              <option value="email">E-mail</option>
+              <option value="celular">Celular</option>
+              <option value="cpf">CPF</option>
+              <option value="cnpj">CNPJ</option>
+              <option value="dinamico">QR Code Dinâmico</option>
+            </select>
+          </div>
+
+          <div class="form-group" id="keyField">
+            <label for="chave">Chave PIX</label>
+            <div class="input-group">
+              <i class="fas fa-key input-icon"></i>
+              <input type="text" class="form-control with-icon" id="chave" name="chave"
+                     placeholder="Digite sua chave PIX" maxlength="77" required>
+            </div>
+          </div>
+        </div>
+
+        <div class="dynamic-field hidden" id="locationField">
+          <div class="form-group">
+            <label for="location">URI da Cobrança</label>
+            <div class="input-group">
+              <i class="fas fa-link input-icon"></i>
+              <input type="text" class="form-control with-icon" id="location" name="location"
+                     placeholder="URI fornecida pelo banco" maxlength="77">
+            </div>
+          </div>
+        </div>
+
+        <div id="staticFields">
+          <div class="form-row equal">
+            <div class="form-group">
+              <label for="valor">Valor (Opcional)</label>
+              <div class="input-group">
+                <i class="fas fa-dollar-sign input-icon"></i>
+                <input type="text" class="form-control with-icon" id="valor" name="valor"
+                       placeholder="0,00" inputmode="decimal">
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="info">Descrição</label>
+              <div class="input-group">
+                <i class="fas fa-comment input-icon"></i>
+                <input type="text" class="form-control with-icon" id="info" name="info"
+                       placeholder="Descrição do pagamento" maxlength="50">
+              </div>
+            </div>
+          </div>
+
+          <div class="form-row equal">
+            <div class="form-group">
+              <label for="zipcode">CEP</label>
+              <div class="input-group">
+                <i class="fas fa-map-marker-alt input-icon"></i>
+                <input type="text" class="form-control with-icon" id="zipcode" name="zipcode"
+                       placeholder="00000-000" inputmode="numeric">
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="city">Cidade</label>
+              <div class="input-group">
+                <i class="fas fa-city input-icon"></i>
+                <input type="text" class="form-control with-icon" id="city" name="city"
+                       placeholder="Nome da cidade" maxlength="50">
+              </div>
+            </div>
+          </div>
+
+          <div class="form-row equal">
+            <div class="form-group">
+              <label for="nome">Nome do Recebedor</label>
+              <div class="input-group">
+                <i class="fas fa-user input-icon"></i>
+                <input type="text" class="form-control with-icon" id="nome" name="nome"
+                       placeholder="Seu nome" maxlength="25">
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="txid">Identificador</label>
+              <div class="input-group">
+                <i class="fas fa-hashtag input-icon"></i>
+                <input type="text" class="form-control with-icon" id="txid" name="txid"
+                       placeholder="ID da transação" maxlength="25">
+              </div>
+            </div>
+          </div>
+
+          <div class="alert alert-info" id="txidAlert" style="display: none;">
+            <i class="fas fa-info-circle"></i>
+            <p>Alguns bancos podem não exibir o identificador nos comprovantes, conforme regulamentação do BACEN.</p>
+          </div>
+
+          <div class="alert alert-warning" id="nameAlert" style="display: none;">
+            <i class="fas fa-exclamation-triangle"></i>
+            <p>O nome do proprietário da chave PIX é consultado automaticamente, mas pode ser útil para exibição na
+              fatura.</p>
+          </div>
+        </div>
+
+        <div class="how-it-works">
+          <h3>
+            <i class="fas fa-lightbulb"></i>
+            Como Funciona?
+          </h3>
+          <p>
+            As informações são codificadas e um link único é gerado. Quando acessado,
+            uma página de pagamento é carregada em tempo real - não armazenamos seus dados.
+          </p>
+        </div>
+
+        <button type="submit" class="btn-submit">
+          <i class="fas fa-magic"></i>
+          Gerar Link PIX
+        </button>
+      </form>
+    </div>
+
+    <!-- Sidebar -->
+    <div class="sidebar">
+      <!-- Features Card -->
+      <div class="sidebar-card">
+        <h3 class="sidebar-title">
+          Funcionalidades
+          <span class="sidebar-badge">
+            <i class="fas fa-star"></i>
+          </span>
+        </h3>
+
+        <ul class="feature-list">
+          <li class="feature-item">
+            <div class="feature-content">
+              <h4>QR Code Automático</h4>
+              <p>Geração conforme padrão PIX oficial</p>
+            </div>
+            <div class="feature-icon">
+              <i class="fas fa-qrcode"></i>
+            </div>
+          </li>
+
+          <li class="feature-item">
+            <div class="feature-content">
+              <h4>Página de Pagamento</h4>
+              <p>Com QR Code e "Copia e Cola"</p>
+            </div>
+            <div class="feature-icon">
+              <i class="fas fa-clipboard"></i>
+            </div>
+          </li>
+
+          <li class="feature-item">
+            <div class="feature-content">
+              <h4>API Disponível</h4>
+              <p>Integre com os seus sistemas<br><b>curl -sX POST {{ request.host_url }}</b></p>
+            </div>
+            <div class="feature-icon">
+              <i class="fas fa-code"></i>
+            </div>
+          </li>
+
+          <li class="feature-item">
+            <div class="feature-content">
+              <h4>Personalização</h4>
+              <p>Faturas com a sua marca</p>
+            </div>
+            <div class="feature-icon">
+              <i class="fas fa-palette"></i>
+            </div>
+          </li>
+        </ul>
+      </div>
+
+      <!-- Share Card -->
+      <div class="sidebar-card">
+        <h3 class="sidebar-title">
+          Compartilhar
+          <span class="sidebar-badge">
+            <i class="fas fa-share-alt"></i>
+          </span>
+        </h3>
+
+        <div class="share-grid">
+          <a
+            href="https://web.whatsapp.com/send?text=Ficou%20super%20f%C3%A1cil%20criar%20links%20PIX!%20Confira:%20https://pix-code.herokuapp.com"
+            class="share-btn share-whatsapp" target="_blank" rel="noopener">
+            <i class="fab fa-whatsapp"></i>
+            WhatsApp
+          </a>
+
+          <a
+            href="https://t.me/share/url?url=https://pix-code.herokuapp.com&text=Ferramenta%20incrível%20para%20criar%20links%20PIX!"
+            class="share-btn share-telegram" target="_blank" rel="noopener">
+            <i class="fab fa-telegram"></i>
+            Telegram
+          </a>
+
+          <a
+            href="https://twitter.com/intent/tweet?text=Ferramenta%20incrível%20para%20criar%20links%20PIX!&url=https://pix-code.herokuapp.com"
+            class="share-btn share-twitter" target="_blank" rel="noopener">
+            <i class="fab fa-twitter"></i>
+            Twitter
+          </a>
+
+          <a
+            href="mailto:?subject=PIX%20Code%20-%20Gerador%20de%20Links&body=Confira%20esta%20ferramenta%20incrível:%20https://pix-code.herokuapp.com"
+            class="share-btn share-email">
+            <i class="fas fa-envelope"></i>
+            E-mail
+          </a>
+        </div>
+      </div>
+
+      <!-- Contact Card -->
+      <div class="sidebar-card">
+        <h3 class="sidebar-title">
+          Suporte
+          <span class="sidebar-badge">
+            <i class="fas fa-headset"></i>
+          </span>
+        </h3>
+
+        <p style="color: var(--text-secondary); margin-bottom: 1rem;">
+          Precisa de consultoria PIX ou encontrou algum problema? Fale conosco!
+        </p>
+        <a href="mailto:cleiton.leonel@gmail.com"
+           style="color: #667eea; text-decoration: none; font-weight: 500;">
+          <i class="fas fa-envelope"></i>
+          cleiton.leonel@gmail.com
+        </a>
+      </div>
+    </div>
+  </div>
+  <footer class="footer" style="text-align:center; margin-top:3rem; color: #eee7e7;">
+    <p>&copy; 2024 PIX Code. Todos os direitos reservados.</p>
+    <a href="/" style="color: #eee7e7; text-decoration: none;">&larr; Voltar ao início</a>
+  </footer>
+</div>
+<script src="https://unpkg.com/imask"></script>
+<script src="{{ url_for('static', filename='js/index.js') }}"></script>
+</body>
+</html>
