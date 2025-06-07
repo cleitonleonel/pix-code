@@ -422,6 +422,91 @@ label {
     line-height: 1.7;
 }
 
+/* Estilos para o input de imagem personalizado */
+.file-upload-container {
+    display: block;
+    width: 100%;
+}
+
+.file-input-hidden {
+    display: none;
+}
+
+.file-upload-box {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    border: 2px dashed #ddd;
+    border-radius: 8px;
+    padding: 1rem;
+    background: #f8f9fa;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    color: #666;
+    font-weight: 500;
+    min-height: 50px;
+}
+
+.file-upload-box:hover {
+    border-color: #667eea;
+    background: #f0f4ff;
+    color: #667eea;
+}
+
+.file-upload-box i {
+    font-size: 1.2rem;
+}
+
+.file-upload-container {
+    position: relative;
+}
+
+.file-upload-box {
+    border: 2px dashed #ccc;
+    border-radius: 8px;
+    padding: 20px;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    background-color: #f9f9f9;
+}
+
+.file-upload-box:hover {
+    border-color: #667eea;
+    background-color: #f0f4ff;
+}
+
+.file-upload-box i {
+    font-size: 24px;
+    color: #667eea;
+    margin-bottom: 8px;
+    display: block;
+}
+
+.file-upload-box span {
+    color: #666;
+    font-weight: 500;
+}
+
+.file-input-hidden {
+    display: none;
+}
+
+.file-upload-box.has-image {
+    border-color: #28a745;
+    background-color: #f0fff4;
+}
+
+.file-upload-box.has-image i {
+    color: #28a745;
+}
+
+.file-upload-box.has-image span {
+    color: #28a745;
+    font-weight: 600;
+}
+
 /* Animations */
 @keyframes fadeInUp {
     from {
@@ -480,6 +565,10 @@ label {
 @media (max-width: 768px) {
     .container {
         padding: 1rem;
+    }
+
+    .file-upload-box {
+        padding: 0.8rem;
     }
 
     .hero h1 {

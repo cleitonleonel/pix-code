@@ -35,6 +35,37 @@ document.getElementById('tipo').addEventListener('change', function () {
 	}
 });
 
+// Função para atualizar o campo quando uma imagem for selecionada
+document.getElementById('logo').addEventListener('change', function (e) {
+	const file = e.target.files[0];
+	const uploadBox = document.getElementById('fileUploadBox');
+	const uploadText = document.getElementById('uploadText');
+	
+	if (file) {
+		// Validar tipo de arquivo
+		if (!file.type.startsWith('image/')) {
+			alert('Por favor, selecione apenas arquivos de imagem.');
+			this.value = '';
+			return;
+		}
+		
+		// Validar tamanho (5MB máximo)
+		if (file.size > 5 * 1024 * 1024) {
+			alert('A imagem deve ter no máximo 5MB.');
+			this.value = '';
+			return;
+		}
+		
+		// Atualizar texto e aparência
+		uploadText.textContent = file.name;
+		uploadBox.classList.add('has-image');
+	} else {
+		// Resetar se nenhum arquivo foi selecionado
+		uploadText.textContent = 'Selecionar imagem';
+		uploadBox.classList.remove('has-image');
+	}
+});
+
 
 // Aplica máscaras dinâmicas no campo chave e fixa no campo CEP
 document.addEventListener('DOMContentLoaded', function () {
