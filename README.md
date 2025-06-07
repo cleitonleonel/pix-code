@@ -3,6 +3,9 @@
 <img src="https://github.com/cleitonleonel/pypix/blob/master/pypix.png?raw=true" alt="pypix" width="450"/>
 
 Pix-code é baseado no projeto [Pix.ae](https://pix.ae/renatofrota@gmail.com), usando motor de um outro projeto meu chamado [Pypix](https://github.com/cleitonleonel/pypix.git).
+
+![pix-code.gif](pix_app/static/media/img/pix-code.gif)
+
 # Instalação e uso:
 
 ```shell
