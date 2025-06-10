@@ -49,34 +49,35 @@ def add_center_gif(
 ) -> tuple[list[Any], int]:
     original_gif = Image.open(center_gif)
     center_size = min(img.width, img.height) // 3
+    new_gif_len = int(center_size * gif_len_percent)
+    gif_size = (new_gif_len, new_gif_len)
+    pos_x = (img.width - gif_size[0]) // 2
+    pos_y = (img.height - gif_size[1]) // 2
+    paste_position = (pos_x, pos_y)
+
+    if radius is None:
+        final_radius = min(gif_size) // 2
+    else:
+        final_radius = int(min(gif_size) * radius)
+
+    mask = Image.new("L", gif_size, 0)
+    draw = ImageDraw.Draw(mask)
+
+    draw.rounded_rectangle(
+        (0, 0, gif_size[0], gif_size[1]),
+        radius=final_radius,
+        fill=255
+    )
     frames_finais = []
 
-    for frame_num, frame_gif in enumerate(ImageSequence.Iterator(original_gif)):
+    for frame_gif in ImageSequence.Iterator(original_gif):
         img_qr_com_logo_frame = img.copy()
         frame_gif_rgba = frame_gif.convert("RGBA")
-        new_gif_len = int(center_size * gif_len_percent)
         frame_gif_resized = frame_gif_rgba.resize(
-            (new_gif_len, new_gif_len),
+            gif_size,
             Image.Resampling.LANCZOS
         )
-        width_frame_gif, height_frame_gif = frame_gif_resized.size
-        if radius is None:
-            radius = min(width_frame_gif, height_frame_gif) // 2
-        else:
-            radius = int(min(width_frame_gif, height_frame_gif) * radius)
-
-        mask = Image.new("L", (width_frame_gif, height_frame_gif), 0)
-        draw = ImageDraw.Draw(mask)
-        draw.rounded_rectangle((0, 0, width_frame_gif, height_frame_gif), radius=radius, fill=255)
-
-        rounded_frame = Image.new("RGBA", (width_frame_gif, height_frame_gif))
-        rounded_frame.paste(frame_gif_resized, (0, 0), mask)
-
-        pos_x = (img.width - width_frame_gif) // 2
-        pos_y = (img.height - height_frame_gif) // 2
-
-        img_qr_com_logo_frame.paste(rounded_frame, (pos_x, pos_y), rounded_frame)
-
+        img_qr_com_logo_frame.paste(frame_gif_resized, paste_position, mask)
         frames_finais.append(img_qr_com_logo_frame)
 
     duration = original_gif.info.get('duration', 100)

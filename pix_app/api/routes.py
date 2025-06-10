@@ -1,7 +1,13 @@
 import json
 import logging
 
-from flask import Blueprint, redirect, render_template, request
+from flask import (
+    Blueprint,
+    redirect,
+    render_template,
+    request,
+    current_app
+)
 
 from pix_app.db.crud.pix_crud import get_pix_by_hash, increment_pix_clicks
 from pix_app.services.pix_service import process_pix_data
@@ -20,8 +26,10 @@ def index():
 
 @main.route("/api/v1/qrcode", methods=["POST"])
 def qrcode_api():
+    response = current_app.response_class()
+    response.headers['Connection'] = 'keep-alive'
+    response.headers['Keep-Alive'] = 'timeout=300, max=1000'
     try:
-        # Parse JSON data
         if request.content_type == "application/json":
             form_data = request.get_json()
         else:
@@ -41,6 +49,9 @@ def qrcode_api():
 
 @main.route("/qrcode", methods=["GET", "POST"])
 def get_qrcode():
+    response = current_app.response_class()
+    response.headers['Connection'] = 'keep-alive'
+    response.headers['Keep-Alive'] = 'timeout=300, max=1000'
     if request.method == "POST":
         try:
             result = process_pix_data(

@@ -210,7 +210,7 @@ class Pix:
                     qr_img,
                     gif_logo,
                     gif_len_percent=1.15,
-                    radius=0.2
+                    radius=2
                 )
 
             return base64_qrcode(qr_img, output, frames=frames, duration=duration)
