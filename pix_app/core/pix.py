@@ -5,7 +5,11 @@ from binascii import crc_hqx
 from io import BytesIO
 from unicodedata import normalize
 
-from pix_app.core.qrgen import Generator
+from pix_app.core.qrgen import (
+    Image,
+    Generator,
+    add_center_gif
+)
 
 # Configuração básica de logging
 logging.basicConfig(
@@ -56,16 +60,35 @@ def get_qrcode():
     return qr_generator
 
 
-def base64_qrcode(img):
+def base64_qrcode(img, output, frames=None, duration=None):
     img_buffer = BytesIO()
-    img.save(img_buffer, "png")
-    res = img_buffer.getvalue()
+    extension = "png"
+
+    if frames:
+        extension = "gif"
+        for mode in [img_buffer, output]:
+            frames[0].save(
+                mode,
+                save_all=True,
+                format=extension.upper(),
+                append_images=frames[1:],
+                duration=duration,
+                loop=0
+            )
+    else:
+        img.save(img_buffer, format=extension.upper())
+        img.save(output, format=extension.upper())
+
+    img_buffer.seek(0)
+    res = img_buffer.read()
     img_buffer.close()
+
     data_string = base64.b64encode(res).decode()
-    return f"data:image/png;base64,{data_string}"
+    return f"data:image/{extension};base64,{data_string}"
 
 
 class Pix:
+
     def __init__(self):
         self.single_transaction = False
         self.key = None
@@ -159,10 +182,19 @@ class Pix:
         return get_value("62", get_value("05", "***"))
 
     def save_qrcode(
-        self, output="./qrcode.png", box_size=7, border=1, custom_logo=None, **kwargs
+            self,
+            output="./qrcode.png",
+            box_size=7,
+            border=1,
+            custom_logo=None,
+            **kwargs
     ):
         try:
+            frames, duration, gif_logo = [], 100, None
             self.qr = get_qrcode()
+            if custom_logo.endswith(".gif"):
+                gif_logo = custom_logo
+                custom_logo = None
 
             qr_img = self.qr.create_custom_qr(
                 self.get_br_code(),
@@ -171,8 +203,17 @@ class Pix:
                 center_image=custom_logo,
                 **kwargs,
             )
-            qr_img.save(output)
-            return base64_qrcode(qr_img)
+
+            if gif_logo:
+                output = output.replace(".png", ".gif")
+                frames, duration = add_center_gif(
+                    qr_img,
+                    gif_logo,
+                    gif_len_percent=1.15,
+                    radius=0.2
+                )
+
+            return base64_qrcode(qr_img, output, frames=frames, duration=duration)
         except ValueError as e:
             logger.error(f"Error saving QR Code: {e}")
             return False

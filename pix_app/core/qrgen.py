@@ -9,10 +9,17 @@ from pix_app.core.styles.frame_styles import FrameStyle
 from pix_app.core.styles.line_styles import LINE_STYLES, LineStyle
 from pix_app.core.styles.marker_styles import MARKER_SVGS, MarkerStyle
 from pix_app.core.styles.qr_styler import GradientMode, QRCodeStyler
-from pix_app.core.utils.image_utils import add_center_image, apply_frame_qr, svg_to_pil
+
+from pix_app.core.utils.image_utils import (
+    add_center_image,
+    add_center_gif,
+    apply_frame_qr,
+    svg_to_pil
+)
 
 
 class Generator(qrcode.QRCode):
+
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         self.border = None
@@ -54,12 +61,22 @@ class Generator(qrcode.QRCode):
         )
         img = img.convert("RGBA")
 
-        img = QRCodeStyler.apply_gradient(img, color=gradient_color, mode=gradient_mode)
+        img = QRCodeStyler.apply_gradient(
+            img,
+            color=gradient_color,
+            mode=gradient_mode
+        )
 
         border_img = svg_to_pil(BORDER_SVGS[border_style], size * 7)
         center_img = svg_to_pil(MARKER_SVGS[marker_style], size * 3)
 
-        self._draw_custom_position_patterns(img, border_img, center_img, size, border)
+        self._draw_custom_position_patterns(
+            img,
+            border_img,
+            center_img,
+            size,
+            border
+        )
 
         if self.style_mode == "Full":
             img = QRCodeStyler.apply_gradient(

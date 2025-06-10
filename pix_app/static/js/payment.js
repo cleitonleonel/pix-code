@@ -31,6 +31,55 @@ async function copyPixCode() {
 	}
 }
 
+// Função para baixar o QR Code
+function downloadQRCode() {
+  const qrImage = document.getElementById('qrCodeImage');
+  
+  // Extrair a extensão do arquivo da URL
+  const imageUrl = qrImage.src;
+  let extension = 'png'; // extensão padrão
+  
+  // Se for data URL (base64), verificar o tipo MIME
+  if (imageUrl.startsWith('data:')) {
+    const mimeType = imageUrl.split(',')[0].split(':')[1].split(';')[0];
+    if (mimeType === 'image/jpeg') extension = 'jpg';
+    else if (mimeType === 'image/png') extension = 'png';
+    else if (mimeType === 'image/gif') extension = 'gif';
+    else if (mimeType === 'image/webp') extension = 'webp';
+  } else {
+    // Se for URL normal, extrair extensão do caminho
+    const urlPath = imageUrl.split('?')[0]; // Remove query parameters
+    const match = urlPath.match(/\.([a-zA-Z0-9]+)$/);
+    if (match) {
+      extension = match[1].toLowerCase();
+    }
+  }
+  
+  // Criar o link de download
+  const link = document.createElement('a');
+  link.download = `qr-code-pix.${extension}`;
+  link.href = qrImage.src;
+  link.target = '_blank';
+  
+  // Simular o clique no link para iniciar o download
+  document.body.appendChild(link);
+  link.click();
+  document.body.removeChild(link);
+  
+  // Mostrar notificação de sucesso
+  showDownloadSuccess();
+}
+
+// Função para mostrar notificação de sucesso do download
+function showDownloadSuccess() {
+	const successDiv = document.getElementById('downloadSuccess');
+	successDiv.style.display = 'block';
+	
+	setTimeout(() => {
+		successDiv.style.display = 'none';
+	}, 3000);
+}
+
 // Adicionar animação de entrada suave
 document.addEventListener('DOMContentLoaded', function () {
 	const elements = document.querySelectorAll('.payment-section, .card');

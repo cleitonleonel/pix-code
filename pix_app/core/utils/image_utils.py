@@ -1,7 +1,9 @@
 import io
+from typing import Any
 
 import cairosvg
-from PIL import Image, ImageDraw
+from PIL import Image, ImageDraw, ImageSequence
+from PIL.ImageFile import ImageFile
 
 
 def svg_to_pil(svg_string: str, size: int) -> Image.Image:
@@ -15,7 +17,11 @@ def svg_to_pil(svg_string: str, size: int) -> Image.Image:
     return img
 
 
-def add_center_image(img: Image.Image, center_image: str, radius: int = None) -> None:
+def add_center_image(
+        img: Image.Image,
+        center_image: str,
+        radius: int = None
+) -> None:
     center_img = Image.open(center_image).convert("RGBA")
     center_size = min(img.width, img.height) // 3
     center_img = center_img.resize((center_size, center_size), Image.LANCZOS)
@@ -35,8 +41,53 @@ def add_center_image(img: Image.Image, center_image: str, radius: int = None) ->
     img.paste(rounded_center, center_pos, rounded_center)
 
 
+def add_center_gif(
+        img: Image.Image,
+        center_gif: str,
+        gif_len_percent: 0.25,
+        radius: float = None
+) -> tuple[list[Any], int]:
+    original_gif = Image.open(center_gif)
+    center_size = min(img.width, img.height) // 3
+    frames_finais = []
+
+    for frame_num, frame_gif in enumerate(ImageSequence.Iterator(original_gif)):
+        img_qr_com_logo_frame = img.copy()
+        frame_gif_rgba = frame_gif.convert("RGBA")
+        new_gif_len = int(center_size * gif_len_percent)
+        frame_gif_resized = frame_gif_rgba.resize(
+            (new_gif_len, new_gif_len),
+            Image.Resampling.LANCZOS
+        )
+        width_frame_gif, height_frame_gif = frame_gif_resized.size
+        if radius is None:
+            radius = min(width_frame_gif, height_frame_gif) // 2
+        else:
+            radius = int(min(width_frame_gif, height_frame_gif) * radius)
+
+        mask = Image.new("L", (width_frame_gif, height_frame_gif), 0)
+        draw = ImageDraw.Draw(mask)
+        draw.rounded_rectangle((0, 0, width_frame_gif, height_frame_gif), radius=radius, fill=255)
+
+        rounded_frame = Image.new("RGBA", (width_frame_gif, height_frame_gif))
+        rounded_frame.paste(frame_gif_resized, (0, 0), mask)
+
+        pos_x = (img.width - width_frame_gif) // 2
+        pos_y = (img.height - height_frame_gif) // 2
+
+        img_qr_com_logo_frame.paste(rounded_frame, (pos_x, pos_y), rounded_frame)
+
+        frames_finais.append(img_qr_com_logo_frame)
+
+    duration = original_gif.info.get('duration', 100)
+
+    return frames_finais, duration
+
+
 def apply_frame_qr(
-    frame_img: Image.Image, qr_img: Image.Image, scale: float = 0.7
+        frame_img: Image.Image,
+        qr_img: Image.Image,
+        scale: float = 0.7
 ) -> Image.Image:
     frame_img = frame_img.convert("RGBA")
     qr_img = qr_img.convert("RGBA")

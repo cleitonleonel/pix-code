@@ -46,7 +46,12 @@
         <div class="qr-section">
           <h3>📱 Escaneie o QR Code</h3>
           <p>Abra o app do seu banco, vá em PIX e escaneie o código</p>
-          <img src="{{ result['base64qr'] }}" alt="QR Code PIX" class="qr-code">
+          <div class="qr-container">
+            <img src="{{ result['base64qr'] }}" alt="QR Code PIX" class="qr-code" id="qrCodeImage">
+            <button onclick="downloadQRCode()" class="download-button" title="Baixar QR Code">
+              <i class="fas fa-download"></i>
+            </button>
+          </div>
         </div>
 
         <div class="copy-section">
@@ -182,6 +187,12 @@
     <p>&copy; 2024 PIX Code. Todos os direitos reservados.</p>
     <a href="/">← Voltar ao início</a>
   </footer>
+</div>
+
+<!-- Notificação de sucesso do download -->
+<div id="downloadSuccess" class="download-success">
+  <i class="fas fa-check"></i>
+  QR Code baixado com sucesso!
 </div>
 
 <script src="{{ url_for('static', filename='js/payment.js') }}"></script>

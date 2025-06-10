@@ -69,6 +69,8 @@ def process_pix_data(request, form_data, files=None):
 
     # Logo padrão
     logo = os.path.join(current_app.config["LOGO_FOLDER"], "logo-pypix.png")
+    # Geração do token
+    token = generate_secure_token()
 
     # Se enviou arquivo, sobrescreve logo
     if files and "file" in files:
@@ -80,7 +82,7 @@ def process_pix_data(request, form_data, files=None):
         file.save(logo)
 
     # Geração do QR Code
-    qr_output = os.path.join(current_app.config["QR_FOLDER"], "qrcode.png")
+    qr_output = os.path.join(current_app.config["QR_FOLDER"], f"{token}.png")
     os.makedirs(os.path.dirname(qr_output), exist_ok=True)
 
     result_data["base64qr"] = pix.save_qrcode(
@@ -88,8 +90,6 @@ def process_pix_data(request, form_data, files=None):
         custom_logo=logo,
     )
 
-    # Geração do token
-    token = generate_secure_token()
     shared_link = f"{request.host_url}invoices/{token}"
     result_data["shared_link"] = shared_link
 
@@ -108,7 +108,6 @@ def process_pix_data(request, form_data, files=None):
         hash_id=token,
     )
 
-    # Persistência
     save_pix(pix_model)
 
     return {
