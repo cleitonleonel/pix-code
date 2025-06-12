@@ -3,7 +3,6 @@ from typing import Any
 
 import cairosvg
 from PIL import Image, ImageDraw, ImageSequence
-from PIL.ImageFile import ImageFile
 
 
 def svg_to_pil(svg_string: str, size: int) -> Image.Image:

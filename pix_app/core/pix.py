@@ -6,7 +6,6 @@ from io import BytesIO
 from unicodedata import normalize
 
 from pix_app.core.qrgen import (
-    Image,
     Generator,
     add_center_gif
 )

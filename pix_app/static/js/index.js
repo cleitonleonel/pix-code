@@ -105,3 +105,14 @@ document.addEventListener('DOMContentLoaded', function () {
 		IMask(cepInput, {mask: '00000-000'});
 	}
 });
+
+document.getElementById('submitButton').addEventListener('click', function (e) {
+  const logoInput = document.getElementById('logo');
+
+  if (!logoInput.files.length) {
+    logoInput.removeAttribute('name');
+  } else {
+    logoInput.setAttribute('name', 'file');
+  }
+  //e.preventDefault();
+});
